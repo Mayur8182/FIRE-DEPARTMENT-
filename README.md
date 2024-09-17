@@ -13,6 +13,7 @@ The project utilizes Bootstrap for styling, Tailwind CSS for additional design e
 
 ## Technologies Used
 
-- **Frontend**: HTML, CSS (Bootstrap, Tailwind CSS), JavaScript
-- **Backend**: (Add your backend technology here, e.g., Flask, Node.js)
+- **Frontend**: HTML, CSS (Bootstrap, Tailwind CSS), JavaScript,React
+- **Backend**: Python, Node.js)
 - **Real-Time Communication**: WebSockets
+-  AI/ML : MLmodel,Tenserflow
