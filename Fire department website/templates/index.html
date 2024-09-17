@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Application Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- For FontAwesome icons -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> <!-- For GIS integration -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> <!-- For GIS integration -->
+    <style>
+        #map { height: 400px; width: 100%; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-lg">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="/" class="text-3xl font-bold text-indigo-700 hover:text-indigo-800 transition duration-300">Application Portal</a>
+            <div>
+                <a href="/login" class="px-4 py-2 text-gray-700 hover:text-indigo-700 border-b-2 border-transparent hover:border-indigo-700 transition duration-300">Login</a>
+                <a href="/register" class="px-4 py-2 text-gray-700 hover:text-indigo-700 border-b-2 border-transparent hover:border-indigo-700 transition duration-300">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-indigo-700 text-white py-24">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-5xl font-extrabold mb-6">Welcome to the Application Portal</h1>
+            <p class="text-lg mb-8">Manage your applications, documents, and approvals seamlessly with real-time updates.</p>
+            <a href="/register" class="bg-white text-indigo-700 px-8 py-4 font-semibold rounded-lg shadow-md hover:bg-gray-200 transition duration-300">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-extrabold text-center mb-12">Our Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-lg text-center transition-transform transform hover:scale-105 duration-300">
+                    <h3 class="text-3xl font-semibold mb-4 text-indigo-600">Real-time Tracking</h3>
+                    <p>Monitor your application status with real-time updates and alerts.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-lg text-center transition-transform transform hover:scale-105 duration-300">
+                    <h3 class="text-3xl font-semibold mb-4 text-indigo-600">AI-Based Verification</h3>
+                    <p>Automatic document verification powered by AI, ensuring faster approvals.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-lg text-center transition-transform transform hover:scale-105 duration-300">
+                    <h3 class="text-3xl font-semibold mb-4 text-indigo-600">Secure Dashboard</h3>
+                    <p>Manage all your applications, approvals, and follow-ups in one secure place.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- On-Site Inspection Request Section -->
+    <section class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-extrabold text-center mb-10">Request On-Site Inspection</h2>
+            <form action="/inspection-request" method="POST" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg">
+                <div class="mb-6">
+                    <label for="location" class="block text-gray-700 font-semibold mb-2">Inspection Location</label>
+                    <input type="text" id="location" name="location" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300" required>
+                </div>
+                <div class="mb-6">
+                    <label for="details" class="block text-gray-700 font-semibold mb-2">Inspection Details</label>
+                    <textarea id="details" name="details" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300" rows="4" required></textarea>
+                </div>
+                <div class="mb-6">
+                    <label for="images" class="block text-gray-700 font-semibold mb-2">Upload Images</label>
+                    <input type="file" id="images" name="images" class="w-full text-gray-700 file:border file:border-gray-300 file:bg-gray-100 file:px-4 file:py-2 file:rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300" multiple>
+                </div>
+                <button type="submit" class="w-full bg-indigo-700 text-white py-3 rounded-lg hover:bg-indigo-800 transition duration-300 font-semibold">
+                    Request Inspection
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- GIS Integration Section -->
+    <section class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-extrabold text-center mb-10">Interactive Map</h2>
+            <div id="map"></div>
+        </div>
+    </section>
+
+    <!-- Fire Department Area Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-extrabold mb-10">Fire Department Services</h2>
+            <p class="text-lg mb-8">Our platform supports various services for the Fire Department, including incident reporting and emergency notifications. Stay informed and take action quickly with our integrated solutions.</p>
+            <a href="/fire-department" class="bg-indigo-700 text-white px-10 py-4 rounded-lg font-semibold hover:bg-indigo-800 transition duration-300">Learn More</a>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="bg-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-extrabold mb-6">Ready to get started?</h2>
+            <p class="text-lg mb-10">Sign up today and manage all your applications effortlessly!</p>
+            <a href="/register" class="bg-indigo-700 text-white px-10 py-4 rounded-lg font-semibold hover:bg-indigo-800 transition duration-300">Sign Up Now</a>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-extrabold mb-12">What Our Users Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="p-8 bg-white rounded-lg shadow-lg">
+                    <p class="mb-4">"This platform has made my application process so much smoother. Real-time updates kept me informed every step of the way!"</p>
+                    <p class="font-semibold text-indigo-600">- mayur bharvad</p>
+                </div>
+                <div class="p-8 bg-white rounded-lg shadow-lg">
+                    <p class="mb-4">"The AI-based verification feature saved me so much time. It automatically validated my documents, and I got approved quickly."</p>
+                    <p class="font-semibold text-indigo-600">- param parekh</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partner Logos Section -->
+    <section class="bg-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-extrabold mb-10">Our Trusted Partners</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <img src="https://s.yimg.com/fz/api/res/1.2/GqrnmZWUa9Qows5uHfev1A--~C/YXBwaWQ9c3JjaGRkO2ZpPWZpdDtoPTI0MDtxPTgwO3c9MjY4/https://s.yimg.com/zb/imgv1/5738ffb4-fb16-390a-b8a6-487ffbfba211/t_500x300" alt="Partner 1" class="mx-auto h-20 object-contain">
+                <img src="https://gujfiresafetycop.in/assets/images/logofs.png" alt="Partner 2" class="mx-auto h-20 object-contain">
+                <img src="https://mahafireservice.gov.in/assets/img/mfs.png" alt="Partner 3" class="mx-auto h-20 object-contain">
+                <img src="https://gujfiresafetycop.in/assets/images/logo.png" alt="Partner 4" class="mx-auto h-20 object-contain">
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-extrabold text-center mb-10">Get in Touch</h2>
+            <form action="/contact" method="POST" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg">
+                <div class="mb-6">
+                    <label for="name" class="block text-gray-700 font-semibold mb-2">Name</label>
+                    <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300" required>
+                </div>
+                <div class="mb-6">
+                    <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
+                    <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300" required>
+                </div>
+                <div class="mb-6">
+                    <label for="message" class="block text-gray-700 font-semibold mb-2">Message</label>
+                    <textarea id="message" name="message" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="w-full bg-indigo-700 text-white py-3 rounded-lg hover:bg-indigo-800 transition duration-300 font-semibold">
+                    Send Message
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-indigo-700 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- About Section -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About Us</h3>
+                    <p>We provide a streamlined solution for managing your applications, approvals, and verifications. Our platform ensures transparency and efficiency at every step.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul>
+                        <li><a href="/about" class="hover:underline">About</a></li>
+                        <li><a href="/contact" class="hover:underline">Contact</a></li>
+                        <li><a href="/faq" class="hover:underline">FAQs</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social Media Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4 justify-center">
+                        <a href="#" class="text-white hover:text-gray-300 transition duration-300"><i class="fab fa-facebook-f fa-lg"></i></a>
+                        <a href="#" class="text-white hover:text-gray-300 transition duration-300"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-white hover:text-gray-300 transition duration-300"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-8">
+                &copy; 2024 Application Portal. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([51.505, -0.09], 13); // Set initial view to some coordinates
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add a marker (optional)
+        L.marker([51.5, -0.09]).addTo(map)
+            .bindPopup('A marker on the map.')
+            .openPopup();
+    </script>
+</body>
+</html>
+

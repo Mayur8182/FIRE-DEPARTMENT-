@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - AEK NOC System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+    <style>
+        .custom-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 2rem;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="custom-container bg-white p-6 rounded-lg shadow-lg mt-10">
+        <h1 class="text-2xl font-bold mb-4">User Dashboard</h1>
+
+        <!-- NOC Application Form -->
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-4">NOC Application Form</h2>
+            <form id="documentForm" action="/upload" method="post" enctype="multipart/form-data">
+                <fieldset class="mb-6 p-4 border border-gray-300 rounded-lg">
+                    <legend class="text-xl font-semibold mb-4">Personal Information</legend>
+                    <div class="form-group">
+                        <label for="firstName" class="form-label">First Name:</label>
+                        <input type="text" id="firstName" name="firstName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" class="form-label">Last Name:</label>
+                        <input type="text" id="lastName" name="lastName" class="form-control" required>
+                    </div>
+                </fieldset>
+
+                <!-- Document Uploads -->
+                <fieldset class="mb-6 p-4 border border-gray-300 rounded-lg">
+                    <legend class="text-xl font-semibold mb-4">Upload Documents</legend>
+                    <div class="form-group">
+                        <label for="identityProof" class="form-label">PAN Card:</label>
+                        <input type="file" id="identityProof" name="identityProof" class="form-control-file" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addressProof" class="form-label">Aadhaar Card:</label>
+                        <input type="file" id="addressProof" name="addressProof" class="form-control-file" required>
+                    </div>
+                </fieldset>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary w-full">Submit Application</button>
+            </form>
+        </div>
+
+        <!-- Applications Table -->
+        <div class="table-responsive mt-4">
+            <h2 class="text-xl font-semibold mb-4">Submitted Applications</h2>
+            <table class="table table-striped" id="applicationsTable">
+                <thead>
+                    <tr>
+                        <th>Application ID</th>
+                        <th>Document</th>
+                        <th>Status</th>
+                        <th>Submission Time</th>
+                    </tr>
+                </thead>
+                <tbody id="applicationsBody">
+                    <!-- Application rows will be updated here via WebSocket -->
+                    {% for app in applications %}
+                    <tr>
+                        <td>{{ app._id }}</td>
+                        <td>
+                            <ul>
+                                <li>PAN Card: {{ app.documents.identity }}</li>
+                                <li>Aadhaar Card: {{ app.documents.address }}</li>
+                            </ul>
+                        </td>
+                        <td id="status-{{ app._id }}">{{ app.status }}</td>
+                        <td>{{ app.timestamp | datetime }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.11/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- WebSocket for Real-Time Updates -->
+    <script>
+        const socket = new WebSocket('ws://localhost:5000/real-time-updates');
+        
+        socket.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            const statusElement = document.getElementById('status-' + data.applicationId);
+            if (statusElement) {
+                statusElement.innerText = data.newStatus;
+            }
+        };
+    </script>
+
+    <!-- Client-Side Validation for File Upload -->
+    <script>
+        document.getElementById('documentForm').addEventListener('submit', function (e) {
+            const identityProof = document.getElementById('identityProof');
+            const addressProof = document.getElementById('addressProof');
+
+            const validExtensions = ['pdf', 'jpg', 'jpeg', 'png'];
+            const identityExt = identityProof.value.split('.').pop().toLowerCase();
+            const addressExt = addressProof.value.split('.').pop().toLowerCase();
+
+            if (!validExtensions.includes(identityExt) || !validExtensions.includes(addressExt)) {
+                alert('Please upload valid files (PDF, JPG, JPEG, PNG).');
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+
+</html>

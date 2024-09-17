@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Upload Document</h1>
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <label for="document">Choose document:</label>
+        <input type="file" id="document" name="document" required>
+        <button type="submit">Upload</button>
+    </form>
+    <a href="{{ url_for('user_dashboard') }}">Back to Dashboard</a>
+</body>
+</html>
