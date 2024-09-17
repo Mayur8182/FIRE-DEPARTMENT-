@@ -1,7 +1,6 @@
 FIRE DEPARTMENT PROJECT BASED ON NOC OR FOLLOWUP  REAL TIME APPLICATION STATUS.........
 ## Overview
-
-The AEK NOC System is a web application designed to streamline the process of applying for No Objection Certificates (NOC) and managing submitted applications. This system allows users to submit their documents, track their application status in real-time, and view a dashboard of all submitted applications. 
+NOC System is a web application designed to streamline the process of applying for No Objection Certificates (NOC) and managing submitted applications. This system allows users to submit their documents, track their application status in real-time, and view a dashboard of all submitted applications. 
 
 The project utilizes Bootstrap for styling, Tailwind CSS for additional design enhancements, and WebSockets for real-time updates on application status.
 
