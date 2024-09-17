@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .custom-card {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      background-color: #fff;
+    }
+    .gradient-text {
+      background: -webkit-linear-gradient(45deg, #ff6b6b, #feca57);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .menu-item:hover {
+      background-color: #f0f0f0;
+      transition: background-color 0.2s;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+  <div class="w-full max-w-5xl mx-auto p-6">
+    <div class="custom-card p-8">
+      <div class="flex items-center justify-between">
+        <h2 class="text-3xl font-bold gradient-text">Welcome, User</h2>
+        <a href="{{ url_for('logout') }}" class="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-200">Logout</a>
+      </div>
+
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Upload Document Feature -->
+        <div class="menu-item p-6 bg-gray-100 rounded-md text-center">
+          <h3 class="text-xl font-semibold text-gray-700">Upload Document</h3>
+          <a href="{{ url_for('upload') }}" class="bg-indigo-600 text-white py-2 px-4 mt-4 inline-block rounded-md hover:bg-indigo-700 transition duration-200">Upload</a>
+        </div>
+
+        <!-- Real-Time Tracking -->
+        <div class="menu-item p-6 bg-gray-100 rounded-md text-center">
+          <h3 class="text-xl font-semibold text-gray-700">Real-Time Tracking</h3>
+          <p class="mt-2 text-gray-500">Track the status of your application</p>
+          <a href="{{ url_for('tracking') }}" class="bg-green-500 text-white py-2 px-4 mt-4 inline-block rounded-md hover:bg-green-600 transition duration-200">Track Now</a>
+        </div>
+
+        <!-- Notifications -->
+        <div class="menu-item p-6 bg-gray-100 rounded-md text-center">
+          <h3 class="text-xl font-semibold text-gray-700">Notifications</h3>
+          <p class="mt-2 text-gray-500">View your recent notifications</p>
+          <a href="{{ url_for('notifications') }}" class="bg-yellow-500 text-white py-2 px-4 mt-4 inline-block rounded-md hover:bg-yellow-600 transition duration-200">View Notifications</a>
+        </div>
+      </div>
+
+      <!-- User Profile Section -->
+      <div class="mt-8 p-6 bg-gray-100 rounded-md">
+        <h3 class="text-2xl font-semibold text-gray-700">Your Profile</h3>
+        <div class="mt-4">
+          <p class="text-gray-500">Name: John Doe</p>
+          <p class="text-gray-500">Email: user@example.com</p>
+          <a href="{{ url_for('edit_profile') }}" class="bg-blue-500 text-white py-2 px-4 mt-4 inline-block rounded-md hover:bg-blue-600 transition duration-200">Edit Profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
