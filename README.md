@@ -16,4 +16,4 @@ The project utilizes Bootstrap for styling, Tailwind CSS for additional design e
 - **Frontend**: HTML, CSS (Bootstrap, Tailwind CSS), JavaScript,React
 - **Backend**: Python, Node.js)
 - **Real-Time Communication**: WebSockets
--  AI/ML : MLmodel,Tenserflow
+-  AI/ML : Tenserflow
